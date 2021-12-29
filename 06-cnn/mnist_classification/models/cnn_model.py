@@ -4,7 +4,7 @@ import torch.nn as nn
 
 class ConvolutionBlock(nn.Module):
 
-    def __init__(self, in_channels, out_channels):
+    def __init__(self, in_channels, out_channels): # aaa
         self.in_channels = in_channels
         self.out_channels = out_channels
 
@@ -37,7 +37,7 @@ class ConvolutionalClassifier(nn.Module):
 
         self.blocks = nn.Sequential( # |x| = (n, 1, 28, 28)
             ConvolutionBlock(1, 32), # (n, 32, 14, 14)
-            ConvolutionBlock(32, 64), # (n, 64, 7, 7)
+            ConvolutionBlock(32, 64), # (n, 64, 7, 7) dd
             ConvolutionBlock(64, 128), # (n, 128, 4, 4) 공식대로 계산해보면 4가 됨
             ConvolutionBlock(128, 256), # (n, 256, 2, 2)
             ConvolutionBlock(256, 512), # (n, 512, 1, 1) 관습적으로 2배씩 늘려서 감
