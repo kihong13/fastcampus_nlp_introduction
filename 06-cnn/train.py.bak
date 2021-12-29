@@ -30,7 +30,7 @@ def define_argparser():
 
 
 def get_model(config):
-    if config.model == 'fc':  # argparse에서 model선택
+    if config.model == 'fc':
         model = FullyConnectedClassifier(28**2, 10)
     elif config.model == 'cnn':
         model = ConvolutionalClassifier(10)
