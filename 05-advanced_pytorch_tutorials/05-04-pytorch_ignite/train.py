@@ -39,9 +39,9 @@ def main(config):
     optimizer = optim.Adam(model.parameters())
     crit = nn.NLLLoss()
 
-    trainer = Trainer(config)
-    trainer.train(model, crit, optimizer, train_loader, valid_loader)
-
+    trainer = Trainer(config)  # egnite를 사용한 code -> trainer.py 참고
+    trainer.train(model, crit, optimizer, train_loader, valid_loader) 
+ 
 if __name__ == '__main__':
     config = define_argparser()
     main(config)

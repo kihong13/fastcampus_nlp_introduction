@@ -19,8 +19,8 @@ VERBOSE_EPOCH_WISE = 1
 VERBOSE_BATCH_WISE = 2
 
 
-class MyEngine(Engine):
-
+class MyEngine(Engine):   # pytorch egnite를 상속받음
+ 
     def __init__(self, func, model, crit, optimizer, config):
         # Ignite Engine does not have objects in below lines.
         # Thus, we assign class variables to access these object, during the procedure.
@@ -43,24 +43,25 @@ class MyEngine(Engine):
         engine.model.train() # Because we assign model as class variable, we can easily access to it.
         engine.optimizer.zero_grad()
 
-        x, y = mini_batch
+        x, y = mini_batch   # tuple로 들어있음
         x, y = x.to(engine.device), y.to(engine.device)
 
         # Take feed-forward
-        y_hat = engine.model(x)
+        y_hat = engine.model(x)  # (bs, 784) -> (bs, 10)
 
         loss = engine.crit(y_hat, y)
         loss.backward()
 
-        # Calculate accuracy only if 'y' is LongTensor,
+        # Calculate accuracy(Classificion) only if 'y' is LongTensor, else -> regression
         # which means that 'y' is one-hot representation.
         if isinstance(y, torch.LongTensor) or isinstance(y, torch.cuda.LongTensor):
             accuracy = (torch.argmax(y_hat, dim=-1) == y).sum() / float(y.size(0))
         else:
             accuracy = 0
 
-        p_norm = float(get_parameter_norm(engine.model.parameters()))
-        g_norm = float(get_grad_norm(engine.model.parameters()))
+        # 학습할때 보조지표로 사용함(잘 학습되는지/아닌지)
+        p_norm = float(get_parameter_norm(engine.model.parameters()))   # parameter의 L2 norm -> 학습이 진행될수록 커져야 함
+        g_norm = float(get_grad_norm(engine.model.parameters()))   # gradient의 L2 norm, gradient 크기를 구함 -> grad norm이 크다=많이 배우고 있다
 
         # Take a step of gradient descent.
         engine.optimizer.step()

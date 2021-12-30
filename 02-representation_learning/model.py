@@ -3,7 +3,7 @@ import torch.nn as nn
 
 class Autoencoder(nn.Module):
     
-    def __init__(self, btl_size=2):
+    def __init__(self, btl_size=2):   # bottle leck size
         self.btl_size = btl_size
         
         super().__init__()
@@ -52,7 +52,7 @@ class Autoencoder(nn.Module):
         )
         
     def forward(self, x):
-        z = self.encoder(x)
-        y = self.decoder(z)
+        z = self.encoder(x)   # |x| = (batch_size, 784) # |z| = (batch_size, blt_size)
+        y = self.decoder(z)   # |y| = (batch_size, 784)
         
         return y
